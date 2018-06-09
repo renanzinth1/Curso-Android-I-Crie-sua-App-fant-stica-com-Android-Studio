@@ -1,4 +1,4 @@
-package br.com.alura.agenda;
+package com.br.narciso.agendaapp2;
 
 import org.junit.Test;
 

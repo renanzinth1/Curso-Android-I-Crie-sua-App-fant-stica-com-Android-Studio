@@ -1,6 +1,8 @@
-package br.com.alura.agenda.modelo;
+package com.br.narciso.agendaapp2.modelo;
 
-public class Aluno {
+import java.io.Serializable;
+
+public class Aluno implements Serializable {
 
     private Long id;
     private String nome;
@@ -8,6 +10,18 @@ public class Aluno {
     private String telefone;
     private String site;
     private Double nota;
+
+    public Aluno() {
+    }
+
+    public Aluno(Long id, String nome, String endereco, String telefone, String site, Double nota) {
+        this.id = id;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.telefone = telefone;
+        this.site = site;
+        this.nota = nota;
+    }
 
     public Long getId() {
         return id;
@@ -59,6 +73,6 @@ public class Aluno {
 
     @Override
     public String toString() {
-        return getId() + " - " + getNome() + ": " + getEndereco();
+        return getId() + " - " + getNome();
     }
 }

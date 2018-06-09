@@ -1,4 +1,4 @@
-package br.com.alura.agenda;
+package com.br.narciso.agendaapp2;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("br.com.alura.agenda", appContext.getPackageName());
+        assertEquals("com.br.narciso.agendaapp2", appContext.getPackageName());
     }
 }
