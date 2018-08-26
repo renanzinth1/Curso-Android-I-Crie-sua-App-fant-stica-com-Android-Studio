@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.br.narciso.agendaapp2.DAO.AlunoDAO;
+import com.br.narciso.agendaapp2.adapter.AlunosAdapter;
 import com.br.narciso.agendaapp2.modelo.Aluno;
 
 import java.io.Serializable;
@@ -160,8 +161,11 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         // Converter os alunos do tipo Aluno para View, no caso, passando como parâmetro:
         // O contexto (própria Activity), um layout padrão e a fonte de dados que queremos exibir.
-        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunos);
+        //ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunos);
 
+        //Foi criado este adapter para poder trazer na lista a foto, nome e número do aluno,
+        // pois com ArrayAdapter, isso não seria acessível.
+        AlunosAdapter adapter = new AlunosAdapter(this, alunos);
         alunosView.setAdapter(adapter);
     }
 }
