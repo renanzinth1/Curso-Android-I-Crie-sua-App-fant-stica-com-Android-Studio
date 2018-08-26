@@ -1,6 +1,11 @@
 package com.br.narciso.agendaapp2;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.provider.Browser;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -69,12 +74,70 @@ public class ListaAlunosActivity extends AppCompatActivity {
     // passando a view desejada.
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
-        MenuItem remover = menu.add("Remover");
-
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         final Aluno aluno = (Aluno) alunosView.getItemAtPosition(info.position);
 
-        remover.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        final MenuItem itemLigar = menu.add("Ligar");
+        final MenuItem itemEndereco = menu.add("Visualizar no mapa");
+        final MenuItem itemSMS = menu.add("Enviar SMS");
+        final MenuItem itemSite = menu.add("Visitar site");
+        MenuItem itemRemover = menu.add("Remover");
+
+        itemLigar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                //Se ainda não foi dada a permissão, ou seja, a permissão não foi aceita pelo usuário...
+                if(ActivityCompat.checkSelfPermission(ListaAlunosActivity.this, Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(ListaAlunosActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 123);
+
+                }
+                else {
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse("tel:" + aluno.getTelefone()));
+                    startActivity(intent);
+                }
+                return false;
+            }
+        });
+
+        itemEndereco.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("geo:0,0?z=25&q=" + aluno.getEndereco()));
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        itemSMS.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("sms:" + aluno.getTelefone()));
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        itemSite.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                String site = aluno.getSite();
+                if(!site.startsWith("https://"))
+                    site = "https://" + site;
+
+                Intent intentSite = new Intent(Intent.ACTION_VIEW);
+                intentSite.setData(Uri.parse(site));
+                startActivity(intentSite);
+                return false;
+            }
+        });
+
+        itemRemover.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 AlunoDAO dao = new AlunoDAO(ListaAlunosActivity.this);
