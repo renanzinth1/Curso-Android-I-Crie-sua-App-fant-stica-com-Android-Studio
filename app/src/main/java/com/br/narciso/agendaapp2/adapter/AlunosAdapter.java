@@ -17,9 +17,9 @@ import com.br.narciso.agendaapp2.modelo.Aluno;
 import java.util.List;
 
 public class AlunosAdapter extends BaseAdapter {
-    
-    private final List<Aluno> alunos;
+
     private final Context context;
+    private final List<Aluno> alunos;
 
     public AlunosAdapter(Context context, List<Aluno> alunos) {
         this.context = context;
@@ -73,6 +73,14 @@ public class AlunosAdapter extends BaseAdapter {
             campoFoto.setImageBitmap(bitmapReduzido);
             campoFoto.setScaleType(ImageView.ScaleType.FIT_XY);
         }
+
+        TextView campoEndereco = view.findViewById(R.id.item_endereco);
+       if(campoEndereco != null)
+            campoEndereco.setText(aluno.getEndereco());
+
+        TextView campoSite = view.findViewById(R.id.item_site);
+        if(campoSite != null)
+            campoSite.setText(aluno.getSite());
 
         return view;
     }
